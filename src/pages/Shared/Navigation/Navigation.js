@@ -1,17 +1,15 @@
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 const Navigation = () => {
-    const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+    const pages = ['Home','About', 'Tips', 'Blogs','Add Blog'];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -20,110 +18,42 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+
     return (
         <>
-        <div>
-            <h1> nevigation bar will be here  </h1>
-        </div>
-         <AppBar position="static">
+         <AppBar position="static" sx={{ bgcolor: "black", pt:2}}>
          <Container maxWidth="xl">
            <Toolbar disableGutters>
              <Typography
                variant="h6"
                noWrap
                component="div"
-               sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+               sx={{ mr: 2, display: { xs: 'none', md: 'flex',fontSize: 40 ,fontWeight: 'bold' } }}
              >
-               LOGO
+               Travelo 
              </Typography>
-   
-             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-               <IconButton
-                 size="large"
-                 aria-label="account of current user"
-                 aria-controls="menu-appbar"
-                 aria-haspopup="true"
-                 onClick={handleOpenNavMenu}
-                 color="inherit"
-               >
-                 {/* <MenuIcon /> */}
-               </IconButton>
-               <Menu
-                 id="menu-appbar"
-                 anchorEl={anchorElNav}
-                 anchorOrigin={{
-                   vertical: 'bottom',
-                   horizontal: 'left',
-                 }}
-                 keepMounted
-                 transformOrigin={{
-                   vertical: 'top',
-                   horizontal: 'left',
-                 }}
-                 open={Boolean(anchorElNav)}
-                 onClose={handleCloseNavMenu}
-                 sx={{
-                   display: { xs: 'block', md: 'none' },
-                 }}
-               >
-                 {pages.map((page) => (
-                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                     <Typography textAlign="center">{page}</Typography>
-                   </MenuItem>
-                 ))}
-               </Menu>
-             </Box>
-             <Typography
-               variant="h6"
-               noWrap
-               component="div"
-               sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-             >
-               LOGO
-             </Typography>
+                             
              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                {pages.map((page) => (
+                   <NavLink to={`/${page}`}>
                  <Button
                    key={page}
                    onClick={handleCloseNavMenu}
-                   sx={{ my: 2, color: 'white', display: 'block' }}
+                   sx={{ my: 2, color: 'white', display: 'block' ,textDecoration: 'none'}}
                  >
                    {page}
                  </Button>
+                 </NavLink>
                ))}
              </Box>
    
              <Box sx={{ flexGrow: 0 }}>
                <Tooltip title="Open settings">
                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                   <Avatar alt="Remy Sharp" src="https://previews.123rf.com/images/yupiramos/yupiramos1811/yupiramos181105195/111553727-avatar-boy-travel-trip-airport-and-vacation-theme-colorful-design-vector-illustration.jpg" />
                  </IconButton>
                </Tooltip>
-               <Menu
-                 sx={{ mt: '45px' }}
-                 id="menu-appbar"
-                 anchorEl={anchorElUser}
-                 anchorOrigin={{
-                   vertical: 'top',
-                   horizontal: 'right',
-                 }}
-                 keepMounted
-                 transformOrigin={{
-                   vertical: 'top',
-                   horizontal: 'right',
-                 }}
-                 open={Boolean(anchorElUser)}
-                 onClose={handleCloseUserMenu}
-               >
-                 {settings.map((setting) => (
-                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                     <Typography textAlign="center">{setting}</Typography>
-                   </MenuItem>
-                 ))}
-               </Menu>
+           
              </Box>
            </Toolbar>
          </Container>
