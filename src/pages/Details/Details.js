@@ -3,22 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Details = () => {
-    const { _id } = useParams();
+    const { id } = useParams();
 const [blog,setBlog]=useState({});
 const [value, setValue] = React.useState(3);
-
+console.log(id);
     
     useEffect(() => {
-        fetch(`./blogs.json/${_id}`)
+        fetch(`https://stormy-taiga-43973.herokuapp.com/blogs/${id}`)
             .then(res => res.json())
             .then(data => setBlog(data));
-    },[])
-console.log(blog);
+    },[]);
 
     return (
         <div>
              <Typography variant="h4"  gutterBottom component="div" sx={{fontWeight: 'bold',m:3}}>
-             TITLE {blog.title}  <Typography variant="button" display="block" gutterBottom>
+             {blog.title}  <Typography variant="button" display="block" gutterBottom>
         -by  {blog.name} 
       </Typography>
             </Typography>
@@ -29,7 +28,7 @@ console.log(blog);
       </Typography>
       <CardMedia
                 component="img"
-                style={{width:'100%',height:'200px',margin:'0 auto'}}
+                style={{width:'70%',height:'300px',margin:'0 auto'}}
                 image={blog.img}
                 alt="green iguana"
         />
@@ -41,6 +40,7 @@ console.log(blog);
           setValue(newValue);
         }}
       />
+
       <Typography variant="body2" gutterBottom>
           {blog.description}
         body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos

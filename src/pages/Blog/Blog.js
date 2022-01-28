@@ -25,7 +25,7 @@ const Blog = (props) => {
                 </Typography>
                
                 
-                <Link to={`/Blogs/${_id}`} style={{textDecoration:'none'}}>  <Button  variant="contained" sx={{textDecoration:'none'}}>See blog</Button> 
+                <Link to={`/blogs/${_id}`} style={{textDecoration:'none'}}>  <Button  variant="contained" sx={{textDecoration:'none'}}>See blog</Button> 
                 </Link>
               
               </CardContent>

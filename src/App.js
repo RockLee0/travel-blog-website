@@ -11,6 +11,7 @@ import Blogs from './pages/Blogs/Blogs';
 import AddBlog from './pages/Add blog/AddBlog';
 import SideBar from './pages/Home/SideBar/SideBar';
 import Details from './pages/Details/Details';
+import Footer from './pages/Shared/Footer/Footer';
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
          <About></About>
         </Route>
         
-        <Route exact path="/Blogs/:nameId">
+        <Route exact path="/blogs/:id">
          <Details></Details>
         </Route>
         <Route path="/Blogs">
@@ -44,6 +45,7 @@ function App() {
          <Home></Home>
         </Route>
       </Switch>
+      <Footer></Footer>
       </BrowserRouter>
     
     </div>
