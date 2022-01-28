@@ -29,6 +29,7 @@ function App() {
         <Route exact path="/blogs/:id">
          <Details></Details>
         </Route>
+        
         <Route path="/Blogs">
          <Blogs></Blogs>
         </Route>
