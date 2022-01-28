@@ -2,8 +2,10 @@ import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar,
 import { Box } from '@mui/system';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 
 const Navigation = () => {
+  const {user,logOut,admin}=useAuth();
     const pages = ['Home','About', 'Tips', 'Blogs','Add Blog'];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -19,6 +21,17 @@ const Navigation = () => {
   };
 
 
+    //dashboard
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+
     return (
         <>
          <AppBar position="static" sx={{ bgcolor: "black", pt:2}}>
@@ -32,7 +45,14 @@ const Navigation = () => {
              >
                Travelo 
              </Typography>
-                             
+
+
+
+
+
+
+
+
              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                {pages.map((page) => (
                    <NavLink to={`/${page}`}>
@@ -46,6 +66,54 @@ const Navigation = () => {
                  </NavLink>
                ))}
              </Box>
+   
+           {/* showing dashboard or login  */}
+
+           {
+              user?.email?
+              <>
+              <div>
+              <Button style={{textDecoration:'none',color:'white'}}
+        id="basic-button"
+        aria-controls="basic-menu"
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        Dashboard
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <Link to="/makeAdmin" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Make Admin</MenuItem> </Link>
+        <Link to="/ManageBlogs" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Manage Blog</MenuItem>  </Link>
+        <Link to="/Add Blog" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Add Blog</MenuItem> </Link>
+      </Menu>
+    </div>
+              <Button style={{textDecoration:'none',color:'white'}} onClick={logOut}  color="inherit">Log Out </Button>
+              
+
+              </>
+              
+              :
+             <>
+              <Link style={{textDecoration:'none' ,color:'white'}} to="/login"><Button  color="inherit">Login </Button> </Link>
+             </>
+              
+
+            }
+
+
+
+
+
+
    
              <Box sx={{ flexGrow: 0 }}>
                <Tooltip title="Open settings">
