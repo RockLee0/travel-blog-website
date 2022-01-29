@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid';
 
 import { Alert, AlertTitle, Button, CircularProgress, TextField, Tooltip, Typography } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-import useAuth from '../../../hooks/useAuth';
 
 
 const Register = () => {
@@ -13,7 +12,6 @@ const Register = () => {
     const [loginData,setLoginData]=useState({});
 
     // useAuth
-    const {user,registerUser,isLoading,authError}=useAuth();
 
 
     const handleLoginSubmit=e=>{
@@ -23,7 +21,6 @@ const Register = () => {
             e.preventDefault();
             return 
         }
-        registerUser(loginData.email,loginData.password,loginData.name);
         alert('submitted');
 
         e.preventDefault();
@@ -50,7 +47,7 @@ const Register = () => {
           <Typography sx={{mb:2 ,fontSize:"25px"}} variant="body1" gutterBottom>
         REGISTER 
       </Typography>
-      {!isLoading && <form  onSubmit={handleLoginSubmit}>
+      <form  onSubmit={handleLoginSubmit}>
       <TextField
                             sx={{ width: '75%', m: 1 }}
                             id="standard-basic"
@@ -85,22 +82,12 @@ const Register = () => {
         
         <NavLink to="/login" style={{textDecoration:'none'}}><Button  sx={{ width: '75%', m: 1 }} variant="text">Already Have Account ?</Button></NavLink>
 
-      </form>}
-      {
-        isLoading && <CircularProgress />
-      }
-      {
-        user?.email && <Alert severity="success">Successfully created an account , Have fun !!!</Alert>
-      }
-      {
-        authError && <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-        {authError}<strong>check it out!</strong>
-      </Alert>
-      }
+      </form>
+      
+      
           </Grid>
           <Grid item xs={12} md={6}>
-            <img src="https://i.pinimg.com/originals/60/74/ed/6074edec75efaeb42e4f6068fbe83b00.jpg" alt="Cycolo is here for you" />
+            <img src="https://image.shutterstock.com/image-photo/group-happy-hiker-jumping-on-260nw-1369451180.jpg" alt="Cycolo is here for you" />
 
           </Grid>
         </Grid>

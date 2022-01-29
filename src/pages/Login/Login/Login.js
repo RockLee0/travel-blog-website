@@ -9,17 +9,17 @@ const Login = () => {
 
     const [loginData,setLoginData]=useState({});
 
-    const {user,LogIn,isLoading,authError}=useAuth();
+    // const {user,LogIn,isLoading,authError}=useAuth();
 
     const location=useLocation();
     const history =useHistory();
 
-    const handleLoginSubmit=e=>{
-      LogIn(loginData.email,loginData.password,location,history );
+    // const handleLoginSubmit=e=>{
+    //   LogIn(loginData.email,loginData.password,location,history );
 
 
-        e.preventDefault();
-    }
+    //     e.preventDefault();
+    // }
     const handleOnchange=e=>{
 
         const feild=e.target.name;
@@ -31,7 +31,6 @@ const Login = () => {
 
         e.preventDefault();
     }  
-    console.log(user);              
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -43,7 +42,8 @@ const Login = () => {
           <Typography sx={{mb:2 ,fontSize:"25px"}} variant="body1" gutterBottom>
         Login
       </Typography>
-      {!isLoading && <form  onSubmit={handleLoginSubmit}>
+      
+       <form >
     <TextField
         sx={{ width: '75%', m: 1 }}
         id="standard-basic"
@@ -63,20 +63,11 @@ const Login = () => {
         
         <NavLink to="/register" style={{textDecoration:'none'}}><Button  sx={{ width: '75%', m: 1 }} variant="text">Haven't registered?Please do it first</Button></NavLink>
 
-      </form>}
+      </form>
 
-      {
-        isLoading && <CircularProgress />
-      }
-      {
-        user?.email && <Alert severity="success">Logged in successfully </Alert>
-      }
-      {
-        authError && <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-        {authError}<strong>check it out!</strong>
-      </Alert>
-      }
+      
+     
+     
 
           </Grid>
           <Grid item xs={12} md={6}>

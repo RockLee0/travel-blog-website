@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import { Button } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import { Route, Switch } from 'react-router-dom';
 import Home from './pages/Home/Home/Home';
@@ -12,6 +11,8 @@ import AddBlog from './pages/Add blog/AddBlog';
 import SideBar from './pages/Home/SideBar/SideBar';
 import Details from './pages/Details/Details';
 import Footer from './pages/Shared/Footer/Footer';
+import Login from './pages/Login/Login/Login';
+import Register from './pages/Login/Register/Register';
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         <Route exact path="/blogs/:id">
          <Details></Details>
         </Route>
-        
+
         <Route path="/Blogs">
          <Blogs></Blogs>
         </Route>
@@ -44,6 +45,12 @@ function App() {
         </Route>
         <Route exact path="/">
          <Home></Home>
+        </Route>
+        <Route exact path="/login">
+              <Login></Login>
+        </Route>
+        <Route exact path="/register">
+              <Register></Register>
         </Route>
       </Switch>
       <Footer></Footer>

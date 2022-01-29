@@ -1,131 +1,129 @@
-import initalizeFirebase from '../pages/Login/firebase/firebase.init';
+import { useState, useEffect } from 'react';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile, getIdToken, signOut, initializeAuth } from "firebase/auth";
+import initializeFirebase from './././../pages/Login/firebase/firebase.init'
 
-import {useEffect, useState} from 'react';
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword  ,signOut,onAuthStateChanged ,updateProfile,getIdToken} from "firebase/auth";
+// initialize firebase app
+initializeFirebase();
 
 
-// initializing 
-initalizeFirebase();
-const useFirebase=()=>{
-
-    const [user,setUser]=useState({});
-    const [isLoading,setIsLoading]=useState(true);
-    const [authError,setAuthError]=useState('');
+const useFirebase = () => {
+    const [user, setUser] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+    const [authError, setAuthError] = useState('');
     const [admin, setAdmin] = useState(false);
     const [token, setToken] = useState('');
 
     const auth = getAuth();
+    const googleProvider = new GoogleAuthProvider();
 
-    // register 
-    const registerUser=(email,password,name,history)=>
-    {
+    const registerUser = (email, password, name, history) => {
+        setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            setAuthError('');
-            const newUser = { email, displayName: name };
-            setUser(newUser);
-            // save user to the database
-            saveUser(email, name, 'POST');
-            // send name to firebase after creation
-            updateProfile(auth.currentUser, {
-                displayName: name
-            }).then(() => {
-            }).catch((error) => {
-            });
-            history.replace('/');
-    })
-        .catch((error) => {
-        setAuthError(error.message);
-        console.log(error.message);
-        // ..
-    })
-    .finally(()=>setIsLoading(false))
-    ;
-
+            .then((userCredential) => {
+                setAuthError('');
+                const newUser = { email, displayName: name };
+                setUser(newUser);
+                // save user to the database
+                saveUser(email, name, 'POST');
+                // send name to firebase after creation
+                updateProfile(auth.currentUser, {
+                    displayName: name
+                }).then(() => {
+                }).catch((error) => {
+                });
+                history.replace('/');
+            })
+            .catch((error) => {
+                setAuthError(error.message);
+                console.log(error);
+            })
+            .finally(() => setIsLoading(false));
     }
 
-    //sign In
-
-    const LogIn =(email,password,location,history )=>
-    {
+    const loginUser = (email, password, location, history) => {
+        setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => { 
-      const destination = location?.state?.from||'/';  
-      history.replace(destination);
-    setAuthError('');
-  })
-  .catch((error) => {
-    setAuthError(error.message);
-
-  })
-  .finally(()=>{setIsLoading(false)  
-})
-  ;
-
+            .then((userCredential) => {
+                const destination = location?.state?.from || '/';
+                history.replace(destination);
+                setAuthError('');
+            })
+            .catch((error) => {
+                setAuthError(error.message);
+            })
+            .finally(() => setIsLoading(false));
     }
 
-    //manage user 
+    const signInWithGoogle = (location, history) => {
+        setIsLoading(true);
+        signInWithPopup(auth, googleProvider)
+            .then((result) => {
+                const user = result.user;
+                saveUser(user.email, user.displayName, 'PUT');
+                setAuthError('');
+                const destination = location?.state?.from || '/';
+                history.replace(destination);
+            }).catch((error) => {
+                setAuthError(error.message);
+            }).finally(() => setIsLoading(false));
+    }
 
-    useEffect(()=>{
-        const unSubscribe=onAuthStateChanged(auth, (user) => {
+    // observer user state
+    useEffect(() => {
+        const unsubscribed = onAuthStateChanged(auth, (user) => {
             if (user) {
-              setUser(user);
-              getIdToken(user)
-              .then(idToken => {
-                  setToken(idToken);
-              })
-    
+                setUser(user);
+                getIdToken(user)
+                    .then(idToken => {
+                        setToken(idToken);
+                    })
             } else {
-              setUser({});
-
+                setUser({})
             }
             setIsLoading(false);
-          });
-          return ()=>unSubscribe;
-    },[]);
+        });
+        return () => unsubscribed;
+    }, [auth])
 
-//setAdmin 
-useEffect(() => {
-  fetch(`https://peaceful-sea-78260.herokuapp.com/users/${user.email}`)
-      .then(res => res.json())
-      .then(data => setAdmin(data.admin))
-}, [user.email])
+    useEffect(() => {
+        fetch(`https://stark-caverns-04377.herokuapp.com/users/${user.email}`)
+            .then(res => res.json())
+            .then(data => setAdmin(data.admin))
+    }, [user.email])
 
-
-    //signOut
-
-    const logOut=()=>{
+    const logout = () => {
         setIsLoading(true);
         signOut(auth).then(() => {
             // Sign-out successful.
-          }).catch((error) => {
+        }).catch((error) => {
             // An error happened.
-          })
-          .finally(()=>setIsLoading(false));
+        })
+            .finally(() => setIsLoading(false));
     }
 
-    //save users
     const saveUser = (email, displayName, method) => {
-      const user = { email, displayName };
-      fetch('https://peaceful-sea-78260.herokuapp.com/users', {
-          method: method,
-          headers: {
-              'content-type': 'application/json'
-          },
-          body: JSON.stringify(user)
-      })
-          .then()
-  }
-
-
+        const user = { email, displayName };
+        fetch('https://stark-caverns-04377.herokuapp.com/users', {
+            method: method,
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then()
+    }
 
     return {
         user,
         admin,
         token,
-        registerUser,LogIn,logOut,isLoading,authError
+        isLoading,
+        authError,
+        registerUser,
+        loginUser,
+        signInWithGoogle,
+        logout,
     }
-
 }
 
 export default useFirebase;
