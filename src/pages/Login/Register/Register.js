@@ -4,7 +4,8 @@ import Grid from '@mui/material/Grid';
 
 import { Alert, AlertTitle, Button, CircularProgress, TextField, Tooltip, Typography } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import useAuth from '../../../hooks/useAuth';
 
 const Register = () => {
 
@@ -12,20 +13,10 @@ const Register = () => {
     const [loginData,setLoginData]=useState({});
 
     // useAuth
+      const {registerUser,isLoading}=useAuth();
+      const history = useHistory();
 
-
-    const handleLoginSubmit=e=>{
-        if(loginData.password !== loginData.password2)
-        {
-            alert('did not match the password');
-            e.preventDefault();
-            return 
-        }
-        alert('submitted');
-
-        e.preventDefault();
-    }
-    const handleOnchange=e=>{
+      const handleOnchange=e=>{
 
         const feild=e.target.name;
         const value=e.target.value;
@@ -35,7 +26,21 @@ const Register = () => {
         
 
         e.preventDefault();
-    }                
+    } 
+
+    const handleLoginSubmit=e=>{
+        if(loginData.password !== loginData.password2)
+        {
+            alert('did not match the password');
+            e.preventDefault();
+            return 
+        }
+        alert('submitted');
+        registerUser(loginData.email,loginData.password,loginData.name,history);
+
+        e.preventDefault();
+    };
+                  
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -47,7 +52,7 @@ const Register = () => {
           <Typography sx={{mb:2 ,fontSize:"25px"}} variant="body1" gutterBottom>
         REGISTER 
       </Typography>
-      <form  onSubmit={handleLoginSubmit}>
+      {!isLoading && <form  onSubmit={handleLoginSubmit}>
       <TextField
                             sx={{ width: '75%', m: 1 }}
                             id="standard-basic"
@@ -82,7 +87,8 @@ const Register = () => {
         
         <NavLink to="/login" style={{textDecoration:'none'}}><Button  sx={{ width: '75%', m: 1 }} variant="text">Already Have Account ?</Button></NavLink>
 
-      </form>
+      </form>}
+      {isLoading && <CircularProgress />}
       
       
           </Grid>

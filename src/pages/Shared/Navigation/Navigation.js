@@ -5,7 +5,7 @@ import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 
 const Navigation = () => {
-  
+  const {user,logout}=useAuth();
   const pages = ['Home','About', 'Tips', 'Blogs','Add Blog'];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -59,14 +59,10 @@ const Navigation = () => {
                ))}
              </Box>
 
-             <>
-              <Link style={{textDecoration:'none' ,color:'white'}} to="/login"><Button  color="inherit">Login </Button> </Link>
-             </>
-
 
 {/* pore use korbone */}
 
-{/* {
+{
               user?.email?
               <>
               <div>
@@ -88,42 +84,33 @@ const Navigation = () => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <Link to="/payment" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Payment</MenuItem> </Link>
         <Link to="/myorders" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>My Orders</MenuItem>  </Link>
-        <Link to="/review" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Review</MenuItem> </Link>
         <Link to="/makeAdmin" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Make Admin</MenuItem> </Link>
-        <Link to="/ManageOrders" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Manage Orders</MenuItem>  </Link>
-        <Link to="/ManageReviews" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Manage Reviews</MenuItem> </Link>
-        <Link to="/AddProduct" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Add Product</MenuItem> </Link>
+        <Link to="/ManageBlog" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Manage Reviews</MenuItem> </Link>
+        <Link to="/Add Blog" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Add Product</MenuItem> </Link>
       </Menu>
     </div>
-              <Button style={{textDecoration:'none',color:'white'}} onClick={logOut}  color="inherit">Log Out </Button>
+        <Button style={{textDecoration:'none',color:'white'}} onClick={logout}  color="inherit">Log Out </Button>
               
-
-              </>
+        </>              
+        :
+        <>
+          <Link style={{textDecoration:'none' ,color:'white'}} to="/login"><Button  color="inherit">Login </Button> </Link>
+        </>
               
-              :
-             <>
-              <Link style={{textDecoration:'none' ,color:'white'}} to="/login"><Button  color="inherit">Login </Button> </Link>
-             </>
-              
-
-            } */}
+        }
 
 
-
-
-   
-             <Box sx={{ flexGrow: 0 }}>
-               <Tooltip title="Open settings">
-                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                    <Avatar alt="Remy Sharp" src="https://previews.123rf.com/images/yupiramos/yupiramos1811/yupiramos181105195/111553727-avatar-boy-travel-trip-airport-and-vacation-theme-colorful-design-vector-illustration.jpg" />
                  </IconButton>
                </Tooltip>
            
-             </Box>
+              </Box>
            </Toolbar>
-         </Container>
+        </Container>
        </AppBar>
        </>
     );

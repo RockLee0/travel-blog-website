@@ -14,12 +14,10 @@ const Login = () => {
     const location=useLocation();
     const history =useHistory();
 
-    // const handleLoginSubmit=e=>{
-    //   LogIn(loginData.email,loginData.password,location,history );
-
-
-    //     e.preventDefault();
-    // }
+    const handleLoginSubmit=e=>{
+        alert('clicked ');
+        e.preventDefault();
+    }
     const handleOnchange=e=>{
 
         const feild=e.target.name;
@@ -43,7 +41,7 @@ const Login = () => {
         Login
       </Typography>
       
-       <form >
+       <form onSubmit={handleLoginSubmit} >
     <TextField
         sx={{ width: '75%', m: 1 }}
         id="standard-basic"
