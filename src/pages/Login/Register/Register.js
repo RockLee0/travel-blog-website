@@ -13,7 +13,7 @@ const Register = () => {
     const [loginData,setLoginData]=useState({});
 
     // useAuth
-      const {registerUser,isLoading}=useAuth();
+      const {registerUser,isLoading,authError,user}=useAuth();
       const history = useHistory();
 
       const handleOnchange=e=>{
@@ -23,8 +23,6 @@ const Register = () => {
         const newLoginData={...loginData};
         newLoginData[feild]=value;
         setLoginData(newLoginData);
-        
-
         e.preventDefault();
     } 
 
@@ -37,7 +35,6 @@ const Register = () => {
         }
         alert('submitted');
         registerUser(loginData.email,loginData.password,loginData.name,history);
-
         e.preventDefault();
     };
                   
@@ -89,8 +86,11 @@ const Register = () => {
 
       </form>}
       {isLoading && <CircularProgress />}
-      
-      
+      {user.email && <Alert severity="success">
+  <AlertTitle>Successfully</AlertTitle>
+  <strong>User Added</strong>
+</Alert>}
+      {authError && <Alert severity="error">{authError}</Alert>}
           </Grid>
           <Grid item xs={12} md={6}>
             <img src="https://image.shutterstock.com/image-photo/group-happy-hiker-jumping-on-260nw-1369451180.jpg" alt="Cycolo is here for you" />

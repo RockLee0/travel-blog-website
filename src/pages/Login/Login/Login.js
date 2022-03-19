@@ -9,13 +9,15 @@ const Login = () => {
 
     const [loginData,setLoginData]=useState({});
 
-    // const {user,LogIn,isLoading,authError}=useAuth();
-
+    const {user,loginUser,isLoading,authError}=useAuth();
+    
     const location=useLocation();
     const history =useHistory();
 
     const handleLoginSubmit=e=>{
         alert('clicked ');
+
+        loginUser(loginData.email,loginData.password)
         e.preventDefault();
     }
     const handleOnchange=e=>{

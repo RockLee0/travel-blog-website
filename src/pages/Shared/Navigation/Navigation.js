@@ -86,7 +86,7 @@ const Navigation = () => {
       >
         <Link to="/myorders" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>My Orders</MenuItem>  </Link>
         <Link to="/makeAdmin" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Make Admin</MenuItem> </Link>
-        <Link to="/ManageBlog" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Manage Reviews</MenuItem> </Link>
+        <Link to="/ManageBlog" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Manage Blog</MenuItem> </Link>
         <Link to="/Add Blog" style={{textDecoration:'none' ,color:'black'}}> <MenuItem onClick={handleClose}>Add Product</MenuItem> </Link>
       </Menu>
     </div>

@@ -16,6 +16,7 @@ const useFirebase=()=>{
     const auth = getAuth();
 
 
+// register user 
 
     const registerUser = (email, password, name, history) => {
       setIsloading(true);
@@ -24,7 +25,8 @@ const useFirebase=()=>{
               setAuthError('');
               const newUser = { email, displayName: name };
               setUser(newUser);
-             
+                // save user to the database
+                saveUser(email,password, 'POST');
               // send name to firebase after creation
               updateProfile(auth.currentUser, {
                   displayName: name
@@ -34,7 +36,7 @@ const useFirebase=()=>{
               history.replace('/');
           })
           .catch((error) => {
-              setAuthError(error.message);
+              setAuthError(error.code);
               console.log(error);
           })
           .finally(() => setIsloading(false));
@@ -43,19 +45,15 @@ const useFirebase=()=>{
 //login user 
 
 const loginUser=(email,password)=>{
-
+    setIsloading(true); 
     signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
+    .then((userCredential) => {
+      setAuthError('');
   })
   .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    setAuthError(error.message);
   })
   .finally(()=>setIsloading(false));
-
 
 }
 
@@ -92,6 +90,19 @@ const loginUser=(email,password)=>{
           .finally(()=>setIsloading(false))
           
     }
+
+    const saveUser = (email, password, method) => {
+      const user = { email, password };
+      fetch('http://localhost:5001/users', {
+          method: method,
+          headers: {
+              'content-type': 'application/json'
+          },
+          body: JSON.stringify(user)
+      })
+          .then(res=>res.json());
+          // added res.json
+  }
     
     
     return{
@@ -99,7 +110,8 @@ const loginUser=(email,password)=>{
         registerUser,
         loginUser,
         logout,
-        isLoading
+        isLoading,
+        authError
     }
 
 }
